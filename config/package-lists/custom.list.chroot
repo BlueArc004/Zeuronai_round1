@@ -1,3 +1,5 @@
+cat <<EOF > Zeuronai_round1/config/package-lists/custom.list.chroot
 code
 google-chrome-stable
 zoom
+EOF
