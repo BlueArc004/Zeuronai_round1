@@ -1,34 +1,88 @@
-Zeuronai_round1
-Creating a Custom ISO with Preinstalled Applications
-## Objective
-Create a custom ISO of Debian, NixOS, or Fedora with the following applications preinstalled: GitHub Desktop, Visual Studio Code (VSCode), Google Chrome, and Zoom.
-## Task Details
+# Custom Debian ISO with Preinstalled Applications
 
-### 1. Choose a Base OS
+This repository contains scripts and configuration files to build a custom Debian ISO with GitHub Desktop, Visual Studio Code, Google Chrome, and Zoom preinstalled.
 
-- Select one of the following operating systems as the base for your custom ISO:
-    - Debian
-    - NixOS
-    - Fedora
+## Requirements
 
-### 2. Setup Environment
+- Debian-based system (e.g., Ubuntu)
+- `live-build` and `debootstrap` packages
 
-- Set up a suitable environment for building and customizing the chosen OS ISO.
-- Ensure you have all necessary tools and dependencies installed for creating a custom ISO.
+1. Install Required Packages
+    ```bash
+    sudo apt update
+    sudo apt install -y live-build debootstrap
+    ```
+2. Preinstall Applications
+   1. Github Desktop:
+   ```bash
+   wget -O github-desktop.deb https://github.com/shiftkey/desktop/releases/download/release-2.9.4-linux1/GitHubDesktop-linux-2.9.4-linux1.deb
+   sudo dpkg -i github-desktop.deb
+   sudo apt-get install -f
+   ```
+   2. Visual Studio Code:
+   ```bash
+   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+   sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+   sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+   sudo apt update
+   sudo apt install code
+   ```
+   3. Chrome:
+   ```bash
+   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+   sudo dpkg -i google-chrome-stable_current_amd64.deb
+   sudo apt-get install -f
+   ```
+   4. Zoom:
+   ```bash
+   wget https://zoom.us/client/latest/zoom_amd64.deb
+   sudo dpkg -i zoom_amd64.deb
+   sudo apt-get install -f
+   ```
+4. Build the ISO:
+   - Setting directory for build config:
 
-### 3. Preinstall Applications
+    ```bash
+    mkdir live-build-config
+    cd live-build-config
+    lb config
+    ```
+5. Add packages
+   ```bash
+   mkdir -p config/package-lists
+   echo "code" >> config/package-lists/custom.list.chroot
+   echo "google-chrome-stable" >> config/package-lists/custom.list.chroot
+   echo "zoom" >> config/package-lists/custom.list.chroot
 
-- **GitHub Desktop**: Ensure the latest version of GitHub Desktop is installed and configured.
-- **Visual Studio Code (VSCode)**: Install the latest version of VSCode.
-- **Google Chrome**: Install the latest stable version of Google Chrome.
-- **Zoom**: Install the latest version of Zoom.
+   ```
+   ```bash
+   mkdir -p config/packages.chroot
+   cp /path/to/github-desktop.deb config/packages.chroot/
+   ```
 
-### 4. Customize the ISO
+6. Adding in hooks
+   ```bash
+   mkdir -p config/hooks/normal
+   cat <<EOF > config/hooks/normal/install-github-desktop.hook.chroot
+   dpkg -i /packages.chroot/github-desktop.deb
+   apt-get install -f
+   EOF
+   ```
+   ```bash
+    chmod +x config/hooks/normal/install-github-desktop.hook.chroot
 
-- Integrate the preinstalled applications into the OS.
-- Ensure all applications are fully functional out of the box.
+    ```
+7. Create ISO
+   ```bash
+   lb build
+   ```
+   - The file will be created in current Directory
+## Installation
 
-### 5. Create the ISO
+Burn the ISO to a USB drive or use it in a virtual machine to install the custom Debian system.
 
-- Generate the custom ISO image with the preinstalled applications.
-- Verify the ISO by booting it in a virtual machine or physical hardware to ensure all applications are working correctly.
+## Verification
+
+1. Boot from the ISO.
+2. Verify that GitHub Desktop, Visual Studio Code, Google Chrome, and Zoom are installed and functional.
+
