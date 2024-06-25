@@ -1,0 +1,7 @@
+cat <<EOF > Zeuronai_round1/config/hooks/normal/install-chrome.hook.chroot
+#!/bin/bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+dpkg -i google-chrome-stable_current_amd64.deb
+apt-get install -f
+EOF
+chmod +x Zeuronai_round1/config/hooks/normal/install-chrome.hook.chroot
