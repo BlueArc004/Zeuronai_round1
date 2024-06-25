@@ -38,3 +38,9 @@ Burn the ISO to a USB drive or use it in a virtual machine to install the custom
 1. Boot from the ISO.
 2. Verify that GitHub Desktop, Visual Studio Code, Google Chrome, and Zoom are installed and functional.
 
+## References
+
+1. https://debian-live-config.readthedocs.io/en/latest/custom.html
+2. https://code.visualstudio.com/docs/setup/linux
+3. https://gist.github.com/berkorbay/6feda478a00b0432d13f1fc0a50467f1
+4. https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063458
