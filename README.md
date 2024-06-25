@@ -15,14 +15,19 @@ This repository contains scripts and configuration files to build a custom Debia
     git clone https://github.com/BlueArc004/Zeuronai_round1.git
     cd Zeuronai_round1
     ```
-
-2. Build the ISO:
+    
+2. Config ISO:
 
     ```bash
-    lb build
+    sudo lb config
+    ```
+3. Build the ISO:
+   
+    ```bash
+    sudo lb config
     ```
 
-3. The custom ISO will be created in the current directory.
+5. The custom ISO will be created in the current directory.
 
 ## Installation
 
