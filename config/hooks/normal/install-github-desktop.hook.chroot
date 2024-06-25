@@ -1,3 +1,8 @@
+mkdir -p custom-debian-iso/config/hooks/normal
+cat <<EOF > custom-debian-iso/config/hooks/normal/install-github-desktop.hook.chroot
 #!/bin/bash
+wget -O /packages.chroot/github-desktop.deb https://github.com/shiftkey/desktop/releases/download/release-2.9.4-linux1/GitHubDesktop-linux-2.9.4-linux1.deb
 dpkg -i /packages.chroot/github-desktop.deb
 apt-get install -f
+EOF
+chmod +x custom-debian-iso/config/hooks/normal/install-github-desktop.hook.chroot
