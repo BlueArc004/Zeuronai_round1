@@ -1,0 +1,7 @@
+cat <<EOF > Zeuronai_round1/config/hooks/normal/install-zoom.hook.chroot
+#!/bin/bash
+wget https://zoom.us/client/latest/zoom_amd64.deb
+dpkg -i zoom_amd64.deb
+apt-get install -f
+EOF
+chmod +x Zeuronai_round1/config/hooks/normal/install-zoom.hook.chroot
